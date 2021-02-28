@@ -89,19 +89,5 @@ public class TransferControllerTest {
 				.andExpect(status().isBadRequest());
 	}
 	
-	@Test
-	public void validateNotificationService() throws Exception {
-		String accountIdFrom = "Bh-001";
-		Account accountFrom = new Account(accountIdFrom, new BigDecimal("123.45"));
-		this.accountsService.createAccount(accountFrom);
-		String accountIdTo = "Bh-002";
-		Account accountTo = new Account(accountIdTo, new BigDecimal("125.45"));
-		this.accountsService.createAccount(accountTo);   
-		this.mockMvc
-				.perform(put("/v1/accounts/transfer/").contentType(MediaType.APPLICATION_JSON)
-						.content("{\"accountFrom\":\"Bh-001\",\"accountTo\":\"Bh-002\",\"transferAmount\":100}"))
-				.andExpect(status().isCreated());
-		
-	}
-
+	
 }
