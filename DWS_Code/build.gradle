@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.assignment'
+
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -22,9 +22,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
-	compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.3.1.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-//	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testCompile group: 'junit', name: 'junit'
 	testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
