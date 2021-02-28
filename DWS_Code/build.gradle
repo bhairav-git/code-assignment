@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    springBootVersion = '1.5.4.RELEASE'
+    springBootVersion = '2.3.0.RELEASE'
   }
   repositories {
     mavenCentral()
@@ -26,4 +26,10 @@ dependencies {
   compile("org.springframework.boot:spring-boot-starter-web")
   compileOnly("org.projectlombok:lombok")
   testCompile("org.springframework.boot:spring-boot-starter-test")
+  annotationProcessor 'org.projectlombok:lombok'
+  testCompile group: 'junit', name: 'junit'
+}
+
+test {
+	useJUnitPlatform()
 }
