@@ -1,6 +1,10 @@
 name: Scan for Duplicate Code
 
 on:
+  workflow_dispatch: # 👈 Allows manual triggering
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
