@@ -1,0 +1,57 @@
+name: Scan for Duplicate Code
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  scan-duplicates:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install jscpd
+        run: npm install -g jscpd
+
+      - name: Run jscpd Analysis
+        run: |
+          jscpd --reporters json --output reports/
+          cat reports/jscpd-report.json
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: duplicate-code-report
+          path: reports/jscpd-report.json
+
+      - name: Check for Duplicates
+        id: check_duplicates
+        run: |
+          count=$(jq '.statistics.total.duplicates' reports/jscpd-report.json)
+          echo "Duplicate Count: $count"
+          if [ "$count" -gt "0" ]; then
+            echo "FOUND_DUPLICATES=true" >> $GITHUB_ENV
+          else
+            echo "FOUND_DUPLICATES=false" >> $GITHUB_ENV
+          fi
+
+      - name: Comment on PR with Duplicates
+        if: env.FOUND_DUPLICATES == 'true'
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            🚨 **Duplicate Code Found!** 🚨  
+            - The repository has duplicate code that needs refactoring.  
+            - View the full report in the [GitHub Artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})  
+
+            Suggested Fixes:  
+            - Use reusable functions instead of repeated code blocks.  
+            - Apply the **DRY principle** (Don't Repeat Yourself).  
+            - Modularize common logic into shared utilities.  
+            - Consider leveraging **GitHub Copilot** for refactoring suggestions.
+
+      - name: Post Workflow Status
+        run: echo "Duplicate code scan completed ✅"
