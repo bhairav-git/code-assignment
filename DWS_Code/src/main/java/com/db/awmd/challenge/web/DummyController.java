@@ -37,7 +37,7 @@ public class DummyController {
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> makeAccount(@RequestBody @Valid Account account) {
+	public ResponseEntity<Object> makeAccounts(@RequestBody @Valid Account account) {
 		log.info("Creating account {}", account);
 
 		try {
@@ -50,7 +50,7 @@ public class DummyController {
 	}
 
 	@GetMapping(path = "/{accountId}")
-	public Account getAccountDetails(@PathVariable String accountId) {
+	public Account getAccountDetail(@PathVariable String accountId) {
 		log.info("Retrieving account for id {}", accountId);
 		return this.accountsService.getAccount(accountId);
 	}
