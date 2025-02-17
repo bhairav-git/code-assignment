@@ -1,0 +1,61 @@
+import os
+import shutil
+import subprocess
+from collections import defaultdict
+from github import Github
+import javalang
+import google.generativeai as palm  # For Gemini Pro (PaLM 2)
+
+# ... (GitHub token, repositories, temp dir, MIN_LINES remain the same)
+
+# Configure PaLM API (Replace with your API key)
+palm.configure(api_key="YOUR_PALM_API_KEY")
+
+def clone_repositories(repositories, temp_dir):
+    # ... (same as before)
+
+def analyze_java_code(repo_path):
+    # ... (same as before, using AST parsing)
+
+def find_duplicates(all_code_blocks):
+    # ... (same as before)
+
+def generate_summary(code_block):
+    """Generates a summary of a code block using Gemini Pro."""
+    prompt = f"Summarize the following Java code:\n{code_block}"
+    try:
+        response = palm.generate_text(model="models/chat-bison-001", prompt=prompt) #Use appropriate model
+        return response.result.strip()  # Remove extra whitespace
+    except Exception as e:
+        print(f"Error generating summary: {e}")
+        return "Summary generation failed."
+
+def main():
+    if not clone_repositories(REPOSITORIES, TEMP_DIR):
+        return
+
+    all_code_blocks = {}
+    for repo_name in REPOSITORIES:
+        repo_path = os.path.join(TEMP_DIR, repo_name.split("/")[1])
+        all_code_blocks[repo_name] = analyze_java_code(repo_path)
+
+    duplicates = find_duplicates(all_code_blocks)
+
+    if duplicates:
+        print("Duplicate code blocks found:\n")
+        for i, block_group in enumerate(duplicates):
+            print(f"Duplicate Group {i+1}:")
+            for start_line, end_line, file_path, block_text in block_group:
+                print(f"  {file_path}:{start_line}-{end_line}:")
+                print(block_text)  # Print the duplicate code
+                summary = generate_summary(block_text)  # Generate summary
+                print(f"  Summary:\n{summary}")
+                print("-" * 20)
+            print("-" * 20)
+    else:
+        print("No duplicate code blocks found.")
+
+    # ... (cleanup remains the same)
+
+if __name__ == "__main__":
+    main()
