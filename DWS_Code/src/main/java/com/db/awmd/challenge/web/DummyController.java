@@ -30,34 +30,17 @@ import lombok.extern.slf4j.Slf4j;
 public class DummyController {
 
 	private final AccountsService accountsService;
+	private final Account testModel;
 
 	@Autowired
 	public AccountsController(AccountsService accountsService) {
 		this.accountsService = accountsService;
 	}
 
-	/* @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> makeAccountss(@RequestBody @Valid Account account) {
-		log.info("Creating account {}", account);
-
-		try {
-			this.accountsService.createAccount(account);
-		} catch (DuplicateAccountIdException daie) {
-			return new ResponseEntity<>(daie.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-
-	@GetMapping(path = "/{accountId}")
-	public Account getAccountDetails(@PathVariable String accountId) {
-		log.info("Retrieving account for id {}", accountId);
-		return this.accountsService.getAccount(accountId);
-	}*/
-
+	
 	public Account getInfo()
 	{
-		this.accountsService.createAccount(account);
+		this.accountsService.createAccount(testModel);
 	}
 
 }
