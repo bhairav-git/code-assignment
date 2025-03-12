@@ -35,5 +35,11 @@ public class DummyController {
 	public Account getAccount() {
 		return this.accountsService.getAccount(accountId);
 	}
+	
+	@GetMapping(path = "/{accountId}")
+	public Account getAccount(@PathVariable String accountId) {
+		log.info("Retrieving account for id {}", accountId);
+		return this.accountsService.getAccount(accountId);
+	}
 
 }
