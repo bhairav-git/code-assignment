@@ -30,17 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 public class DummyController {
 
 	private final AccountsService accountsService;
-	private final Account testModel;
-
-	@Autowired
-	public AccountsController(AccountsService accountsService) {
-		this.accountsService = accountsService;
-	}
-
 	
-	public Account getInfo()
-	{
-		this.accountsService.createAccount(testModel);
+	@GetMapping(/accountId)
+	public Account getAccount() {
+		return this.accountsService.getAccount(accountId);
 	}
 
 }
