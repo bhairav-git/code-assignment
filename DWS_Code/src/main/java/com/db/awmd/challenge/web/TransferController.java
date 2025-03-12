@@ -45,6 +45,19 @@ public class TransferController {
 		this.emailNotificationService = new EmailNotificationService();
 	}
 
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> createAccount(@RequestBody @Valid Account account) {
+		log.info("Creating account {}", account);
+
+		try {
+			this.accountsService.createAccount(account);
+		} catch (DuplicateAccountIdException daie) {
+			return new ResponseEntity<>(daie.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+
 	@PutMapping(path = "/transfer", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> amountTransfer(@RequestBody @Valid AmountTransfer amountTransfer) {
 		try {
