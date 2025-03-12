@@ -49,10 +49,5 @@ public class AccountsController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@GetMapping(path = "/{accountId}")
-	public Account getAccount(@PathVariable String accountId) {
-		log.info("Retrieving account for id {}", accountId);
-		return this.accountsService.getAccount(accountId);
-	}
 
 }
